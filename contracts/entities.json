@@ -1,17 +1,33 @@
 {
-  "schema_version": "1",
+  "schema_version": "2",
   "domain": "电力科研供需清单双向匹配",
   "required_fields": [
-    "research_ref",
-    "demand_ref",
+    "party_role",
+    "party_ref",
     "metric_code",
     "metric_revision",
-    "evidence_digest"
+    "evidence_digest",
+    "evidence_kind",
+    "confidentiality_level",
+    "public_scope"
   ],
+  "enums": {
+    "party_role": ["research", "demand"],
+    "evidence_kind": ["experimental_data", "intent"],
+    "confidentiality_level": ["public", "internal", "restricted"],
+    "session_status": ["pending_confirmation", "active", "concluded"],
+    "result_outcome": ["passed", "failed"],
+    "result_attribution": ["research", "demand", "shared"]
+  },
+  "compatibility": {
+    "metric_caliber": "双方 metric_code 与 metric_revision 均一致方可进入联合验证",
+    "confidentiality": "双方 confidentiality_level 相同方可进入联合验证"
+  },
   "time_format": "ISO 8601 with offset",
   "sample": {
     "research_ref": "TECH-DEMO",
     "demand_ref": "GRID-DEMO",
-    "metric_code": "storage_efficiency"
+    "metric_code": "storage_efficiency",
+    "metric_revision": "v1"
   }
 }
