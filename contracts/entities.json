@@ -1,0 +1,17 @@
+{
+  "schema_version": "1",
+  "domain": "电力科研供需清单双向匹配",
+  "required_fields": [
+    "research_ref",
+    "demand_ref",
+    "metric_code",
+    "metric_revision",
+    "evidence_digest"
+  ],
+  "time_format": "ISO 8601 with offset",
+  "sample": {
+    "research_ref": "TECH-DEMO",
+    "demand_ref": "GRID-DEMO",
+    "metric_code": "storage_efficiency"
+  }
+}
