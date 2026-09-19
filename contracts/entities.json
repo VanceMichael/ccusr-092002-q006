@@ -1,17 +1,68 @@
 {
-  "schema_version": "1",
+  "schema_version": "2",
   "domain": "电力科研供需清单双向匹配",
-  "required_fields": [
-    "research_ref",
-    "demand_ref",
-    "metric_code",
-    "metric_revision",
-    "evidence_digest"
-  ],
   "time_format": "ISO 8601 with offset",
+  "identifiers": {
+    "party_ref": "提交方来源编号（电网单位或校内课题组），仅表示提交方对自身记录的识别符",
+    "demand_ref": "电网方对需求条目的来源编号",
+    "capability_ref": "课题组对能力声明条目的来源编号",
+    "version": "同一来源编号下单调递增的整数版本，新版本提交后旧版本自动置为 superseded"
+  },
+  "enums": {
+    "party.role": ["grid", "research"],
+    "confidentiality": ["public", "consortium", "bilateral"],
+    "evidence_kind": ["experimental", "intent"],
+    "verification.result": ["pass", "fail", "inconclusive"],
+    "pairing.status": ["proposed", "confirmed", "metric_changed"],
+    "readiness": [
+      "pending_evidence",
+      "unverified_experimental",
+      "verified_pass",
+      "verification_failed",
+      "verification_inconclusive"
+    ]
+  },
+  "required_fields": {
+    "party": ["ref", "role", "name"],
+    "demand": [
+      "party_ref",
+      "demand_ref",
+      "title",
+      "metric_code",
+      "metric_revision",
+      "confidentiality"
+    ],
+    "capability": [
+      "party_ref",
+      "capability_ref",
+      "title",
+      "metric_code",
+      "metric_revision",
+      "confidentiality",
+      "evidence_kind"
+    ],
+    "pairing": ["demand_ref", "capability_ref"],
+    "confirmation": ["party_ref"],
+    "verification": ["pairing_id", "party_ref", "result", "conclusion"]
+  },
+  "optional_fields": {
+    "demand": ["scenario", "target"],
+    "capability": ["evidence_digest", "measured_value"],
+    "verification": ["evidence_ref"]
+  },
+  "rules": {
+    "experimental_requires_digest": "evidence_kind=experimental 时必须提供 evidence_digest（实验数据摘要）",
+    "metric_gate": "metric_code 与 metric_revision 必须双方一致才允许配对",
+    "confidentiality_gate": "需求场景保密级别须不低于能力证据保密级别（public<consortium<bilateral），更敏感的证据不得进入更公开的场景",
+    "dual_confirmation": "配对须双方分别确认后状态才变为 confirmed，未确认不得提交联合验证",
+    "metric_change": "任一方提交新版本（更换指标口径或保密范围）后，相关配对状态置为 metric_changed，须按新版本重新提议并经双方重新确认",
+    "verification_append_only": "联合验证结论只追加，不更新不删除；每条记录固化结论归属（owner_role）与当时的指标、保密级别快照",
+    "readiness_report": "试点转化前按 evidence_kind 区分有实验数据支持（experimental）与仅待验证意向（intent），并附最新联合验证结论"
+  },
   "sample": {
     "research_ref": "TECH-DEMO",
     "demand_ref": "GRID-DEMO",
-    "metric_code": "storage_efficiency"
+    "metric_code": "storage_efficiency",
+    "metric_revision": "GB/T-36558-2024"
   }
 }

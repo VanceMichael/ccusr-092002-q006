@@ -1,5 +1,29 @@
 {
-  "research_ref": "TECH-DEMO",
-  "demand_ref": "GRID-DEMO",
-  "metric_code": "storage_efficiency"
+  "demand": {
+    "party_ref": "GRID-DEMO",
+    "demand_ref": "GRID-DEMAND-1",
+    "title": "储能电站循环效率验证场景",
+    "metric_code": "storage_efficiency",
+    "metric_revision": "GB/T-36558-2024",
+    "confidentiality": "consortium",
+    "scenario": "额定充放电工况下的系统综合效率",
+    "target": "不低于 90%"
+  },
+  "capability": {
+    "party_ref": "TECH-DEMO",
+    "capability_ref": "TECH-CAP-1",
+    "title": "储能系统综合效率优化技术",
+    "metric_code": "storage_efficiency",
+    "metric_revision": "GB/T-36558-2024",
+    "confidentiality": "public",
+    "evidence_kind": "experimental",
+    "evidence_digest": "sha256:demo-digest-0001",
+    "measured_value": "92.5%"
+  },
+  "compatibility": {
+    "metric_code_match": true,
+    "metric_revision_match": true,
+    "confidentiality_compatible": true,
+    "note": "指标代码与修订版本一致，且能力证据公开范围窄于需求场景（public → consortium），可进入联合验证"
+  }
 }
